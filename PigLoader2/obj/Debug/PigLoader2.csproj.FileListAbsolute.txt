@@ -1,0 +1,14 @@
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\bin\Debug\PigLoader2.exe.config
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\bin\Debug\PigLoader2.exe
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\bin\Debug\PigLoader2.pdb
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2.csprojResolveAssemblyReference.cache
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\MainWindow.g.cs
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\App.g.cs
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2_MarkupCompile.cache
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2_MarkupCompile.lref
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\MainWindow.baml
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2.g.resources
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2.Properties.Resources.resources
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2.csproj.GenerateResource.Cache
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2.exe
+c:\users\strixx\documents\visual studio 2015\Projects\PigLoader2\PigLoader2\obj\Debug\PigLoader2.pdb
