@@ -17,6 +17,9 @@ using System.Diagnostics;
 using System.Collections;
 using System.Net;
 using System.IO;
+using System.Reflection;
+using JLibrary.PortableExecutable;
+using InjectionLibrary;
 
 namespace PigLoader2
 {
@@ -32,12 +35,10 @@ namespace PigLoader2
         [System.Runtime.InteropServices.ComVisibleAttribute(true)]
         public class ScriptManager
         {
- 
 
-            public void Run(string processName, string friendlyName, string externalInjectorPath, string externalDllPath)
+            public void Run(string processName, string friendlyName, string externalDllPath)
             {
-                //Console.Write("{0} {1} {2} {3}", processName, friendlyName, externalInjectorPath, externalDllPath);
-                string subTmpFolderName = "pig"; // DO NOT CHANGE
+                Console.Write("{0} {1} {2}", processName, friendlyName, externalDllPath);
                 Process process;
                 switch (processName)
                 {
@@ -49,72 +50,58 @@ namespace PigLoader2
                         break;
                 }
 
-                // Create a pig folder if it doesn't already exist in tmp folder
-                System.IO.Directory.CreateDirectory(Path.GetTempPath() + subTmpFolderName);
+                string dllLocation = String.Format("http://www.pighack.com{0}", externalDllPath);
 
-                // If no process is found at this point, tell the user and do not continue
-                //Console.WriteLine(externalInjectorPath);
-                //Console.WriteLine(externalDllPath);
-                //Console.WriteLine(Path.GetTempPath());
+                WebClient myWebClient = new WebClient();
+                byte[] dllbytes = myWebClient.DownloadData(dllLocation);
+                //byte[] dllbytes = File.ReadAllBytes(Path.Combine("C:\\", "PigDll.dll"));
 
                 if (process == null)
                 {
-                    MessageBox.Show(String.Format("{0} could not be found, ensure it is running and you running launcher as admin!", friendlyName));
+                    MessageBox.Show(String.Format("{0} could not be found, ensure it is running and your running launcher as admin!", friendlyName));
                 }
                 else
                 {
-                    // Process found
 
-                    // Download Injector if it doesn't exist
-                    string externalInjectorDownloadLocation = String.Format("http://www.pighack.com{0}", externalInjectorPath);
-                    string injectorPath = String.Format("{0}/{1}/injector.exe", Path.GetTempPath(), subTmpFolderName);
+                    /*
+                    var injector = InjectionMethod.Create(InjectionMethodType.Standard);
+                    var processId = process.Id;
+                    var hModule = IntPtr.Zero;
 
-                    if (File.Exists(injectorPath))
+                    using (PortableExecutable img = new PortableExecutable(dllbytes))
+                        hModule = injector.Inject(img, processId);
+
+                    if (hModule != IntPtr.Zero)
                     {
-                        Console.WriteLine("Injector already exists we don't need to download it");
+                        // injection was successful
+                        MessageBox.Show("Good job");
                     }
                     else
                     {
-                        Console.WriteLine("Injector does not exist in tmp folder create it");
-                        var webClient = new WebClient();
-                        webClient.DownloadFile(new Uri(externalInjectorDownloadLocation), injectorPath);
-                        webClient.Dispose();
-                        Console.WriteLine("Injector download complete");
+                        // injection failed
+                        if (injector.GetLastError() != null)
+                            MessageBox.Show(injector.GetLastError().Message);
+                    }
+                    */
+
+                    //InjectionMethod method = InjectionMethod.Create(InjectionMethodType.Standard); //InjectionMethodType.Standard //InjectionMethodType.ManualMap //InjectionMethodType.ThreadHijack
+                    InjectionMethod injectionMethod = InjectionMethod.Create(InjectionMethodType.Standard);
+
+                    IntPtr zero = IntPtr.Zero;
+                    using (PortableExecutable executable = new PortableExecutable(dllbytes))
+                    {
+                        zero = injectionMethod.Inject(executable, process.Id);
                     }
 
-                    // Download DLL
-                    string externalDllDownloadLocation = String.Format("http://www.pighack.com{0}", externalDllPath);
-                    string dllPath = String.Format("{0}/{1}/PigDll.dll", Path.GetTempPath(), subTmpFolderName);
+                    if (zero != IntPtr.Zero)
+                    {
+                        MessageBox.Show(String.Format("{0} found!", friendlyName));
+                    }
+                    else if (injectionMethod.GetLastError() != null)
+                    {
+                        MessageBox.Show(injectionMethod.GetLastError().Message);
+                    }
 
-                    Console.WriteLine("Download DLL");
-                    var webClientDll = new WebClient();
-                    webClientDll.DownloadFile(new Uri(externalDllDownloadLocation), dllPath);
-                    webClientDll.Dispose();
-                    Console.WriteLine("Finish download DLL");
-
-                    Console.WriteLine("Run injection");
-                    // Run injector against found process ID with DLL downloaded
-                    Process new_process = new Process();
-                    new_process.StartInfo.FileName = injectorPath;
-                    new_process.StartInfo.Arguments = String.Format("{0} {1}", process.Id, dllPath);
-                    new_process.StartInfo.UseShellExecute = false;
-                    new_process.StartInfo.CreateNoWindow = true;
-                    new_process.StartInfo.RedirectStandardOutput = true;
-                    new_process.StartInfo.Verb = "runas";
-                    new_process.Start();
-
-                    StreamReader reader = new_process.StandardOutput;
-                    string output = reader.ReadToEnd();
-                    // Write the redirected output to this application's window.
-                    Console.WriteLine(output);
-                    new_process.WaitForExit();
-                    new_process.Close();
-                    Console.WriteLine("END Run injection");
-
-                    // Finally delete the DLL from the temp folder
-                    Console.WriteLine("DELETE DLL");
-                    File.Delete(dllPath);
-                    MessageBox.Show(String.Format("{0} found!", friendlyName));
                 }
             }
         }
@@ -122,6 +109,20 @@ namespace PigLoader2
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             webBrowser.ObjectForScripting = new ScriptManager();
+            HideScriptErrors(webBrowser, true);
+        }
+
+        public void HideScriptErrors(WebBrowser wb, bool Hide)
+        {
+            FieldInfo fiComWebBrowser = typeof(WebBrowser)
+                .GetField("_axIWebBrowser2",
+                          BindingFlags.Instance | BindingFlags.NonPublic);
+            if (fiComWebBrowser == null) return;
+            object objComWebBrowser = fiComWebBrowser.GetValue(wb);
+            if (objComWebBrowser == null) return;
+            objComWebBrowser.GetType().InvokeMember(
+                "Silent", BindingFlags.SetProperty, null, objComWebBrowser,
+                new object[] { Hide });
         }
 
         public MainWindow()

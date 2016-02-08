@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,6 +66,35 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InjectionLibrary\CRTInjection.cs" />
+    <Compile Include="InjectionLibrary\InjectionMethod.cs" />
+    <Compile Include="InjectionLibrary\InjectionMethodType.cs" />
+    <Compile Include="InjectionLibrary\ManualMap.cs" />
+    <Compile Include="InjectionLibrary\StandardInjectionMethod.cs" />
+    <Compile Include="InjectionLibrary\ThreadHijack.cs" />
+    <Compile Include="JLibrary\PortableExecutable\Constants.cs" />
+    <Compile Include="JLibrary\PortableExecutable\DATA_DIRECTORIES.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_BASE_RELOCATION.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_DATA_DIRECTORY.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_DOS_HEADER.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_FILE_HEADER.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_IMPORT_DESCRIPTOR.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_NT_HEADER32.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_OPTIONAL_HEADER32.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_RESOURCE_DATA_ENTRY.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_RESOURCE_DIRECTORY.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_RESOURCE_DIRECTORY_ENTRY.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_SECTION_HEADER.cs" />
+    <Compile Include="JLibrary\PortableExecutable\IMAGE_THUNK_DATA.cs" />
+    <Compile Include="JLibrary\PortableExecutable\PortableExecutable.cs" />
+    <Compile Include="JLibrary\PortableExecutable\ResourceWalker.cs" />
+    <Compile Include="JLibrary\PortableExecutable\U1.cs" />
+    <Compile Include="JLibrary\Tools\ErrorBase.cs" />
+    <Compile Include="JLibrary\Tools\MemoryIterator.cs" />
+    <Compile Include="JLibrary\Tools\UnmanagedBuffer.cs" />
+    <Compile Include="JLibrary\Tools\Utils.cs" />
+    <Compile Include="JLibrary\Win32\Win32Ptr.cs" />
+    <Compile Include="JLibrary\Win32\WinAPI.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -86,6 +118,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\favicon-32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

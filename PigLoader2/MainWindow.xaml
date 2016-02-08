@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PigLoader2"
-        mc:Ignorable="d" Height="642.882" Width="819.924" ShowInTaskbar="False" ResizeMode="NoResize">
+        mc:Ignorable="d" Height="642.882" Width="819.924" ResizeMode="CanMinimize" Icon="Resources/favicon-32x32.png">
     <Grid>
         <WebBrowser x:Name="webBrowser" Source="http://www.pighack.com/login?launcher=true" Loaded="Window_Loaded"/>
 
